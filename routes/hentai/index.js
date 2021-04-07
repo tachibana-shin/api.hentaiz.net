@@ -32,7 +32,7 @@ async function getTrailer(html) {
   return {
     photo: document.querySelector(".anime-thumbnail").getAttribute("src"),
     name: document.querySelector(".anime-name > h1").textContent,
-    description: document.querySelector(".description > p").innerHTML,
+    description: document.querySelector(".description > p")?.innerHTML,
     information: [...document.querySelectorAll(".anime-info")].map(
       getKeyAndValueAnimeInfo
     ),
@@ -129,6 +129,7 @@ router
           });
         }
       } catch (e) {
+        console.log( e )
         res.status(404).end(`Error ${404}`);
       }
     }

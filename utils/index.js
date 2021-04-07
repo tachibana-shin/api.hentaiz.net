@@ -25,7 +25,7 @@ exports.createDOM = async (curl, isDocument) => {
 };
 
 exports.toResolvePath = (url) => {
-  return "/" + url.replace(/^https?:\/\/[^/]+\//, "");
+  return "/" + url.replace(/^https?:\/\/?[^/]+\//, "");
 };
 
 exports.separationCaption = (caption) => {

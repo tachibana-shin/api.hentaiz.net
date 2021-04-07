@@ -2,12 +2,12 @@ const { getHentaizOnCategory } = require("../../helpers");
 const router = require("express").Router();
 
 router
-  .route("/nam-sx/:id")
-  .get(async ({ params: { id }, query: { page = 1, sort } }, res) => {
+  .route("/:type/:id")
+  .get(async ({ params: { type, id }, query: { page = 1, sort } }, res) => {
     try {
       res.json(
         await getHentaizOnCategory(
-          `${process.env.CAWRL_URL}/nam-sx`,
+          `${process.env.CAWRL_URL}/${type}`,
           id,
           page,
           sort

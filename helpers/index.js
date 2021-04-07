@@ -5,6 +5,7 @@ const {
   toResolvePath,
   createDOM,
   separationCaption,
+  trim,
 } = require("../utils");
 
 exports.getSrcForIframeVideo = async ({ url, x = "" }) => {
@@ -64,12 +65,20 @@ exports.getItemOnBlocks = (document) => {
   });
 };
 
+exports.getMaxPage = (document, url) =>
+  +(
+    document
+      .querySelector(".pagination .page-item:last-child .page-link")
+      ?.getAttribute("href") || url
+  ).match(/\/page\/(\d+)\/?/)?.[1] || 1;
+
 exports.getHentaizOnCategory = async (prefix, id, page, sort) => {
   const url = `${prefix}/${id}/page/${Math.max(+page, 1)}${
     !!sort ? `?orderby=${sort}` : ""
   }`;
 
   const document = await createDOM(url);
+  const maxPage = exports.getMaxPage(document, url);
 
   return {
     blocks: exports.getItemOnBlocks(document),
@@ -77,6 +86,7 @@ exports.getHentaizOnCategory = async (prefix, id, page, sort) => {
     description: document
       .querySelector('meta[name="description"]')
       .getAttribute("content"),
+    maxPage,
   };
 };
 // !(async () => {

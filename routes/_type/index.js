@@ -7,7 +7,7 @@ router
     try {
       res.json(
         await getHentaizOnCategory(
-          `${process.env.CAWRL_URL}/${type}`,
+          `${process.env.CAWRL_URL}/${type === "special" ? "" : type}`,
           id,
           page,
           sort

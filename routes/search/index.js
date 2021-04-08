@@ -10,21 +10,24 @@ router
       { query: { query, producer, year, type, categories, page = 1 } },
       res
     ) => {
-      const { data } = await axios.get(`${process.env.CAWRL_URL}/page/${page}`, {
-        params: {
-          s: query,
-          hxproducer: producer,
-          hxyear: year,
-          hxtype: type,
-          hxgenres: categories,
-        },
-      });
+      const { data } = await axios.get(
+        encodeURI(`${process.env.CAWRL_URL}/page/${page}`),
+        {
+          params: {
+            s: query,
+            hxproducer: producer,
+            hxyear: year,
+            hxtype: type,
+            hxgenres: categories,
+          },
+        }
+      );
 
       const document = await createDOM(data, true);
-      
+
       res.json({
         hentais: getItemOnBlocks(document),
-        maxPage: getMaxPage(document, `${process.env.CAWRL_URL}/page/${page}`)
+        maxPage: getMaxPage(document, `${process.env.CAWRL_URL}/page/${page}`),
       });
     }
   );

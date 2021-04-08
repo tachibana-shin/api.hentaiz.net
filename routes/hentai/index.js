@@ -102,12 +102,14 @@ router
       try {
         if (!onlyUrl) {
           const [pageTrailer, pageVideo] = await Promise.all([
-            axios.get(`${process.env.CAWRL_URL}/${id}`),
+            axios.get(encodeURI(`${process.env.CAWRL_URL}/${id}`)),
             axios.get(
-              `${process.env.CAWRL_URL}/${id}/xem-phim/tap-${Math.max(
-                +chapter,
-                1
-              )}.html`
+              encodeURI(
+                `${process.env.CAWRL_URL}/${id}/xem-phim/tap-${Math.max(
+                  +chapter,
+                  1
+                )}.html`
+              )
             ),
           ]);
           res.json({
@@ -119,17 +121,19 @@ router
             ...(await getChapter(
               (
                 await axios.get(
-                  `${process.env.CAWRL_URL}/${id}/xem-phim/tap-${Math.max(
-                    +chapter,
-                    1
-                  )}.html`
+                  encodeURI(
+                    `${process.env.CAWRL_URL}/${id}/xem-phim/tap-${Math.max(
+                      +chapter,
+                      1
+                    )}.html`
+                  )
                 )
               ).data
             )),
           });
         }
       } catch (e) {
-        console.log( e )
+        console.log(e);
         res.status(404).end(`Error ${404}`);
       }
     }

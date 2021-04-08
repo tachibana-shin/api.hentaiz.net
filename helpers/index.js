@@ -10,7 +10,7 @@ const {
 
 exports.getSrcForIframeVideo = async ({ url, x = "" }) => {
   const { data } = await axios.get(
-    `${process.env.CAWRL_URL}/wp-admin/admin-ajax.php`,
+    encodeURI(`${process.env.CAWRL_URL}/wp-admin/admin-ajax.php`),
     {
       params: {
         action: "hx_gl",

@@ -9,7 +9,7 @@ router.route("/pre-search").get(async ({ query: { query = "" } }, res) => {
     });
   } else {
     const { data } = await axios.get(
-      `${process.env.CAWRL_URL}/wp-admin/admin-ajax.php`,
+      encodeURI(`${process.env.CAWRL_URL}/wp-admin/admin-ajax.php`),
       {
         params: {
           action: "hx_ac",

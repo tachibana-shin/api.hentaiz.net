@@ -3,7 +3,7 @@ const axios = require("../cache-axios");
 const { JSDOM } = require("jsdom");
 
 exports.create$ = async (curl, isDocument) => {
-  const html = isDocument ? curl : (await axios.get(curl)).data;
+  const html = isDocument ? curl : (await axios.get(encodeURI(curl))).data;
   const $ = cheerio.load(html);
 
   $.prototype.map = function (callback) {
@@ -19,7 +19,7 @@ exports.create$ = async (curl, isDocument) => {
 };
 
 exports.createDOM = async (curl, isDocument) => {
-  const html = isDocument ? curl : (await axios.get(curl)).data;
+  const html = isDocument ? curl : (await axios.get(encodeURI(curl))).data;
 
   return new JSDOM(html).window.document;
 };

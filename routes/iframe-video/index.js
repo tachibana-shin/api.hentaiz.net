@@ -3,7 +3,7 @@ const { JSDOM } = require("jsdom");
 const router = require("express").Router();
 
 async function getBodyContent(url) {
-  const { data } = await axios.get(url);
+  const { data } = await axios.get(encodeURI(url));
 
   const {
     window: { document },

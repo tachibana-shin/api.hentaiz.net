@@ -14,7 +14,7 @@ function getOptions(document, name) {
 }
 
 async function getNavBar() {
-  const { data } = await axios.get(`${process.env.CAWRL_URL}`);
+  const { data } = await axios.get(encodeURI(`${process.env.CAWRL_URL}`));
 
   const document = await createDOM(data, true);
 
@@ -70,7 +70,7 @@ async function getNavBar() {
     .filter(Boolean);
 }
 async function getOptionSearch() {
-  const { data } = await axios.get(`${process.env.CAWRL_URL}?s=0`);
+  const { data } = await axios.get(encodeURI(`${process.env.CAWRL_URL}?s=0`));
 
   const document = await createDOM(data, true);
 

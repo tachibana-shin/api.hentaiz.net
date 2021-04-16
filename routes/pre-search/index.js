@@ -1,8 +1,7 @@
-const router = require("express").Router();
 const axios = require("../../cache-axios");
 const { createDOM, toResolvePath } = require("../../utils");
 
-router.route("/pre-search").get(async ({ query: { query = "" } }, res) => {
+exports.get = async ({ query: { query = "" } }, res) => {
   if (!query) {
     res.json({
       hentais: [],
@@ -29,6 +28,4 @@ router.route("/pre-search").get(async ({ query: { query = "" } }, res) => {
       }),
     });
   }
-});
-
-module.exports = router;
+};

@@ -1,4 +1,5 @@
 const app = require("express")();
+const importRoutes = require("express-import-routes")
 const bodyParser = require("body-parser");
 require("dotenv").config();
 
@@ -10,7 +11,7 @@ app.use(require("cookie-parser")());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
-app.use("/", require("./routes"));
+app.use(importRoutes("./routes"))
 
 app.listen(process.env.PORT || 3000, (err) => {
   if (err) {

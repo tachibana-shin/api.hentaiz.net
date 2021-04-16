@@ -1,5 +1,3 @@
-const router = require("express").Router();
-const axios = require("../../cache-axios");
 const path = require("path");
 const { createDOM, trim, toResolvePath } = require("../../utils");
 
@@ -45,8 +43,6 @@ async function getSitemap(loc, prefix = "") {
   ).filter(Boolean);
 }
 
-router.route("/sitemap").get(async (req, res) => {
+exports.get = async (req, res) => {
   res.json(await getSitemap("sitemap.xml"));
-});
-
-module.exports = router;
+};

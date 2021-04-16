@@ -1,4 +1,3 @@
-const router = require("express").Router();
 const axios = require("../../cache-axios");
 const { createDOM, toResolvePath } = require("../../utils");
 
@@ -96,7 +95,7 @@ async function getOptionSearch() {
   };
 }
 
-router.route("/setup").get(async ({ query: { type } }, res) => {
+exports.get = async ({ query: { type } }, res) => {
   switch (type) {
     case "navbar":
       res.json(await getNavBar());
@@ -107,6 +106,4 @@ router.route("/setup").get(async ({ query: { type } }, res) => {
     default:
       res.status(404).end("Not Found");
   }
-});
-
-module.exports = router;
+};

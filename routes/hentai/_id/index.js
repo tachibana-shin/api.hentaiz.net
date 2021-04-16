@@ -1,8 +1,7 @@
-const { toResolvePath, createDOM, trim } = require("../../utils");
+const { toResolvePath, createDOM, trim } = require("../../../utils");
 
-const router = require("express").Router();
-const axios = require("../../cache-axios");
-const { getItemOnCarousel } = require("../../helpers");
+const axios = require("../../../cache-axios");
+const { getItemOnCarousel } = require("../../../helpers");
 
 function getKeyAndValueAnimeInfo(animeInfo) {
   const name = trim(animeInfo.textContent.match(/^([^:]+):/)[1]);
@@ -49,7 +48,7 @@ function getChapters(document) {
   ).map((item) => {
     return {
       name: item.textContent,
-      value: +item.getAttribute("href").match(/tap\-(\d+)\.html?/)[1],
+      value: +item.getAttribute("href").match(/tap-(\d+)\.html?/)[1],
     };
   });
 
@@ -92,51 +91,45 @@ async function getChapter(html) {
   };
 }
 
-router
-  .route("/hentai/:id")
-  .get(
-    async (
-      { params: { id }, query: { onlyUrl = false, chapter = 1 } },
-      res
-    ) => {
-      try {
-        if (!onlyUrl) {
-          const [pageTrailer, pageVideo] = await Promise.all([
-            axios.get(encodeURI(`${process.env.CAWRL_URL}/${id}`)),
-            axios.get(
+exports.get = async (
+  { params: { id }, query: { onlyUrl = false, chapter = 1 } },
+  res
+) => {
+  try {
+    if (!onlyUrl) {
+      const [pageTrailer, pageVideo] = await Promise.all([
+        axios.get(encodeURI(`${process.env.CAWRL_URL}/${id}`)),
+        axios.get(
+          encodeURI(
+            `${process.env.CAWRL_URL}/${id}/xem-phim/tap-${Math.max(
+              +chapter,
+              1
+            )}.html`
+          )
+        ),
+      ]);
+      res.json({
+        ...(await getTrailer(pageTrailer.data)),
+        ...(await getChapter(pageVideo.data)),
+      });
+    } else {
+      res.json({
+        ...(await getChapter(
+          (
+            await axios.get(
               encodeURI(
                 `${process.env.CAWRL_URL}/${id}/xem-phim/tap-${Math.max(
                   +chapter,
                   1
                 )}.html`
               )
-            ),
-          ]);
-          res.json({
-            ...(await getTrailer(pageTrailer.data)),
-            ...(await getChapter(pageVideo.data)),
-          });
-        } else {
-          res.json({
-            ...(await getChapter(
-              (
-                await axios.get(
-                  encodeURI(
-                    `${process.env.CAWRL_URL}/${id}/xem-phim/tap-${Math.max(
-                      +chapter,
-                      1
-                    )}.html`
-                  )
-                )
-              ).data
-            )),
-          });
-        }
-      } catch (e) {
-        console.log(e);
-        res.status(404).end(`Error ${404}`);
-      }
+            )
+          ).data
+        )),
+      });
     }
-  );
-
-module.exports = router;
+  } catch (e) {
+    console.log(e);
+    res.status(404).end(`Error ${404}`);
+  }
+};

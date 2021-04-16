@@ -721,6 +721,13 @@ etag@~1.8.1:
   resolved "https://registry.yarnpkg.com/etag/-/etag-1.8.1.tgz#41ae2eeb65efa62268aebfea83ac7d79299b0887"
   integrity sha1-Qa4u62XvpiJorr/qg6x9eSmbCIc=
 
+express-import-routes@0.0.2:
+  version "0.0.2"
+  resolved "https://registry.yarnpkg.com/express-import-routes/-/express-import-routes-0.0.2.tgz#08faabcead321c316b6cf9740c89df037d22fa0b"
+  integrity sha512-hYLHebgX3uSor/8Olo+3noomlFieqXjjnOyHdMu6e0JQ0r76Bn8+QRuLovpq6KAn3kLbK8+yVpDL/34mGBDchw==
+  dependencies:
+    express "^4.17.1"
+
 express@^4.17.1:
   version "4.17.1"
   resolved "https://registry.yarnpkg.com/express/-/express-4.17.1.tgz#4491fc38605cf51f8629d39c2b5d026f98a4c134"

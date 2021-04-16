@@ -1,6 +1,5 @@
 const axios = require("../../cache-axios");
 const { JSDOM } = require("jsdom");
-const router = require("express").Router();
 
 async function getBodyContent(url) {
   const { data } = await axios.get(encodeURI(url));
@@ -61,22 +60,18 @@ async function createHTML(url) {
    `;
 }
 
-router
-  .route("/iframe-video")
-  .get(async ({ query: { url = null, x = "" } }, res) => {
-    if (url !== null) {
-      try {
-        const html = await createHTML(
-          `${process.env.CAWRL_URL}/wp-admin/admin-ajax.php?action=hx_gl&url=${url}&x=${x}`
-        );
+exports.get = async ({ query: { url = null, x = "" } }, res) => {
+  if (url !== null) {
+    try {
+      const html = await createHTML(
+        `${process.env.CAWRL_URL}/wp-admin/admin-ajax.php?action=hx_gl&url=${url}&x=${x}`
+      );
 
-        res.send(html);
-      } catch (e) {
-        res.status(404).end("Not Found");
-      }
-    } else {
+      res.send(html);
+    } catch (e) {
       res.status(404).end("Not Found");
     }
-  });
-
-module.exports = router;
+  } else {
+    res.status(404).end("Not Found");
+  }
+};

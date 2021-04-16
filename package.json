@@ -12,6 +12,7 @@
     "cors": "^2.8.5",
     "dotenv": "^8.2.0",
     "express": "^4.17.1",
+    "express-import-routes": "0.0.2",
     "jsdom": "^16.5.2"
   },
   "scripts": {

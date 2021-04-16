@@ -1,10 +1,7 @@
-const axios = require("../../cache-axios")
 const { getItemOnBlocks, getItemOnCarousel } = require("../../helpers");
 const { createDOM } = require("../../utils");
 
-const router = require("express").Router();
-
-router.route("/index").get(async (req, res) => {
+exports.get = async (req, res) => {
   const [home, noCover, finish] = await Promise.all([
     createDOM(`${process.env.CAWRL_URL}`),
     createDOM(`${process.env.CAWRL_URL}/hentai-uncensored`),
@@ -28,6 +25,4 @@ router.route("/index").get(async (req, res) => {
     hentaiNoCover,
     hentaiFinish,
   });
-});
-
-module.exports = router;
+};
